@@ -5,14 +5,11 @@
 
 using namespace sf;
 
-struct AssetsHolder{
-    std::map<std::string, Texture*> textures;
+struct AssetsHolder
+{
+    std::map<std::string, Texture> textures;
 };
 
-std::map<std::string, Sprite> sprites;  
-
-void load(AssetsHolder &assets){
-    sprites["background"].setTexture(*assets.textures["background"]);
-}
-
+AssetsHolder assets;
+std::map<std::string, Sprite> sprites;
 

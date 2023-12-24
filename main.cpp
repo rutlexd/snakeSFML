@@ -1,5 +1,5 @@
 #include "assets.cpp"
-#include "config.cpp"   
+#include "config.cpp"
 #include "objects/snake.cpp"
 #include <iostream>
 #include <unistd.h>
@@ -12,22 +12,9 @@ int main()
 
     sf::Clock clock;
     window.setFramerateLimit(FPS);
-    
-    Texture redSq;
-    redSq.loadFromFile("/home/rutle/progs/snake/asssets/sprites/red32x32.png");
-
-    Sprite red;
-    red.setTexture(redSq);
-
-    Texture greenSq;
-    greenSq.loadFromFile("/home/rutle/progs/snake/asssets/sprites/green32x32.png");
-
-    Sprite snake;
-    snake.setTexture(greenSq);
-
 
     Texture backgroundSq;
-    backgroundSq.loadFromFile("/home/rutle/progs/snake/asssets/sprites/background.png");
+    backgroundSq.loadFromFile("asssets/sprites/background.png");
 
     Sprite background;
 
@@ -35,9 +22,12 @@ int main()
 
     background.setPosition(Vector2f(50, 200));
 
-    int moveSide, preMoveSide;
+    int moveSide, preMoveSide = -1;
 
-    Position snakePos[100];
+    Snake snake;
+
+    snake.loadAssets();
+    snake.setSprites();
 
     while (window.isOpen())
     {
@@ -46,52 +36,59 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-        
         }
 
-        if (event.type == Event::KeyPressed){
-        
-            if (event.key.code == Keyboard::Right && moveSide != 1){
-                preMoveSide = 0; 
+        if (event.type == Event::KeyPressed)
+        {
+
+            if (event.key.code == Keyboard::Right && moveSide != 1)
+            {
+                preMoveSide = 0;
             }
-            else if (event.key.code == Keyboard::Left && moveSide != 0){
+            else if (event.key.code == Keyboard::Left && moveSide != 0)
+            {
                 preMoveSide = 1;
             }
-            else if (event.key.code == Keyboard::Up && moveSide != 3){
+            else if (event.key.code == Keyboard::Up && moveSide != 3)
+            {
                 preMoveSide = 2;
             }
-            else if (event.key.code == Keyboard::Down && moveSide != 2){
+            else if (event.key.code == Keyboard::Down && moveSide != 2)
+            {
                 preMoveSide = 3;
             }
         }
-        
 
-    
-        window.clear(sf::Color::White);
+        window.clear(sf::Color::Black);
 
         window.draw(background);
-        if(game == 1){
+        if (game == 1)
+        {
             if (clock.getElapsedTime().asMilliseconds() >= SPEED)
-            {   
+            {
                 clock.restart();
-                
+
                 moveSide = preMoveSide;
 
-                for (int i = size; i > 0; i--){
-                    snakePos[i].x = snakePos[i - 1].x;
-                    snakePos[i].y = snakePos[i - 1].y;
+                if (moveSide == 0)
+                {
+                    snake.moveRight();
                 }
-                snakePos[0] = getSnakePos(moveSide);
+                else if (moveSide == 1)
+                {
+                    snake.moveLeft();
+                }
+                else if (moveSide == 2)
+                {
+                    snake.moveUp();
+                }
+                else if (moveSide == 3)
+                {
+                    snake.moveDown();
+                }
             }
-        
-            for (int i = 0; i < size; i++){
-                snake.setPosition(snakePos[i].x, snakePos[i].y);
-                red.setPosition(snakePos[0].x, snakePos[0].y);
-                window.draw(red);
-                window.draw(snake);
-            }
-        
-            
+
+            snake.render(window);
             window.display();
         }
     }
