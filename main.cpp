@@ -14,7 +14,7 @@ int main()
     window.setFramerateLimit(FPS);
 
     Texture backgroundSq;
-    backgroundSq.loadFromFile("asssets/sprites/background.png");
+    backgroundSq.loadFromFile("asssets/sprites/gameField.png");
 
     Sprite background;
 
@@ -22,7 +22,8 @@ int main()
 
     background.setPosition(Vector2f(50, 200));
 
-    int moveSide, preMoveSide = -1;
+    Keyboard::Key moveSide = Keyboard::Unknown;
+    Keyboard::Key preMoveSide = Keyboard::Unknown;
 
     Snake snake;
 
@@ -41,25 +42,15 @@ int main()
         if (event.type == Event::KeyPressed)
         {
 
-            if (event.key.code == Keyboard::Right && moveSide != 1)
+            Keyboard::Key key = event.key.code;
+            if (key == Keyboard::Right && moveSide != Keyboard::Left || key == Keyboard::Left && moveSide != Keyboard::Right ||
+                key == Keyboard::Up && moveSide != Keyboard::Down || key == Keyboard::Down && moveSide != Keyboard::Up)
             {
-                preMoveSide = 0;
-            }
-            else if (event.key.code == Keyboard::Left && moveSide != 0)
-            {
-                preMoveSide = 1;
-            }
-            else if (event.key.code == Keyboard::Up && moveSide != 3)
-            {
-                preMoveSide = 2;
-            }
-            else if (event.key.code == Keyboard::Down && moveSide != 2)
-            {
-                preMoveSide = 3;
+                preMoveSide = key;
             }
         }
 
-        window.clear(sf::Color::Black);
+        window.clear(sf::Color::Magenta);
 
         window.draw(background);
         if (game == 1)
@@ -67,27 +58,10 @@ int main()
             if (clock.getElapsedTime().asMilliseconds() >= SPEED)
             {
                 clock.restart();
-
                 moveSide = preMoveSide;
-
-                if (moveSide == 0)
-                {
-                    snake.moveRight();
-                }
-                else if (moveSide == 1)
-                {
-                    snake.moveLeft();
-                }
-                else if (moveSide == 2)
-                {
-                    snake.moveUp();
-                }
-                else if (moveSide == 3)
-                {
-                    snake.moveDown();
-                }
+                snake.move(moveSide);
             }
-
+            
             snake.render(window);
             window.display();
         }
