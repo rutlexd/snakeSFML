@@ -19,6 +19,11 @@ private:
     bool isMoveLeft;
     bool isMoveRight;
 
+    bool wasMoveDown;
+    bool wasMoveUp;
+    bool wasMoveRight;
+    bool wasMoveLeft;
+
     void moveBody()
     {
         for (int i = size; i > 0; i--)
@@ -73,17 +78,17 @@ public:
         snakeBody.loadFromFile("asssets/sprites/snakeBody_Horizontal.png");
         assets["snakeBody_Horizontal"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_RightDown.png");
-        assets["snakeBody_RightDown"] = snakeBody;
+        snakeBody.loadFromFile("asssets/sprites/snakeBody_UpLeft.png");
+        assets["snakeBody_UpLeft"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_RightUp.png");
-        assets["snakeBody_RightUp"] = snakeBody;
+        snakeBody.loadFromFile("asssets/sprites/snakeBody_DownLeft.png");
+        assets["snakeBody_DownLeft"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_LeftDown.png");
-        assets["snakeBody_LeftDown"] = snakeBody;
+        snakeBody.loadFromFile("asssets/sprites/snakeBody_UpRight.png");
+        assets["snakeBody_UpRight"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_LeftUp.png");
-        assets["snakeBody_LeftUp"] = snakeBody;
+        snakeBody.loadFromFile("asssets/sprites/snakeBody_DownRight.png");
+        assets["snakeBody_DownRight"] = snakeBody;
     }
 
     void setSprites()
@@ -99,21 +104,43 @@ public:
         isMoveRight = false;
         isMoveLeft = false;
 
-        if (snakePos[indexBody].x > snakePos[indexBody + 1].x)
-        {
-            isMoveRight = true;
-        }
-        if (snakePos[indexBody].x < snakePos[indexBody + 1].x)
+        wasMoveDown = false;
+        wasMoveUp = false;
+        wasMoveRight = false;
+        wasMoveLeft = false;
+
+        if (snakePos[indexBody].x > snakePos[indexBody - 1].x)
         {
             isMoveLeft = true;
         }
-        if (snakePos[indexBody].y < snakePos[indexBody - 1].y)
+        else if (snakePos[indexBody].x < snakePos[indexBody - 1].x)
+        {
+            isMoveRight = true;
+        }
+        else if (snakePos[indexBody].y < snakePos[indexBody - 1].y)
         {
             isMoveDown = true;
         }
-        if (snakePos[indexBody].y > snakePos[indexBody - 1].y)
+        else if (snakePos[indexBody].y > snakePos[indexBody - 1].y)
         {
             isMoveUp = true;
+        }
+
+        if (snakePos[indexBody].x > snakePos[indexBody + 1].x)
+        {
+            wasMoveRight = true;
+        }
+        else if (snakePos[indexBody].x < snakePos[indexBody + 1].x)
+        {
+            wasMoveLeft = true;
+        }
+        else if (snakePos[indexBody].y < snakePos[indexBody + 1].y)
+        {
+            wasMoveUp = true;
+        }
+        else if (snakePos[indexBody].y > snakePos[indexBody + 1].y)
+        {
+            wasMoveDown = true;
         }
     }
 
@@ -127,49 +154,53 @@ public:
             {
                 sprites["snakeBody"].setTexture(assets["snakeBody_Horizontal"]);
 
-                if (isMoveDown)
+                if (wasMoveDown)
                 {
-                    sprites["snakeBody"].setTexture(assets["snakeBody_RightDown"]);
+                    sprites["snakeBody"].setTexture(assets["snakeBody_DownRight"]);
                 }
-                else if (isMoveUp)
+                else if (wasMoveUp)
                 {
-                    sprites["snakeBody"].setTexture(assets["snakeBody_RightUp"]);
+                    sprites["snakeBody"].setTexture(assets["snakeBody_UpRight"]);
                 }
             }
             else if (isMoveLeft)
             {
                 sprites["snakeBody"].setTexture(assets["snakeBody_Horizontal"]);
-                if (isMoveDown)
+
+                if (wasMoveDown)
                 {
-                    sprites["snakeBody"].setTexture(assets["snakeBody_LeftDown"]);
+                    sprites["snakeBody"].setTexture(assets["snakeBody_DownLeft"]);
                 }
-                else if (isMoveUp)
+                else if (wasMoveUp)
                 {
-                    sprites["snakeBody"].setTexture(assets["snakeBody_LeftUp"]);
+                    sprites["snakeBody"].setTexture(assets["snakeBody_UpLeft"]);
                 }
             }
+
             else if (isMoveDown)
             {
                 sprites["snakeBody"].setTexture(assets["snakeBody_Vertical"]);
-                if (isMoveLeft)
+
+                if (wasMoveLeft)
                 {
-                    sprites["snakeBody"].setTexture(assets["snakeBody_LeftDown"]);
+                    sprites["snakeBody"].setTexture(assets["snakeBody_UpRight"]);
                 }
-                else if (isMoveRight)
+                else if (wasMoveRight)
                 {
-                    sprites["snakeBody"].setTexture(assets["snakeBody_RightDown"]);
+                    sprites["snakeBody"].setTexture(assets["snakeBody_UpLeft"]);
                 }
             }
-            else
+            else if (isMoveUp)
             {
                 sprites["snakeBody"].setTexture(assets["snakeBody_Vertical"]);
-                if (isMoveLeft)
+
+                if (wasMoveLeft)
                 {
-                    sprites["snakeBody"].setTexture(assets["snakeBody_LeftUp"]);
+                    sprites["snakeBody"].setTexture(assets["snakeBody_DownRight"]);
                 }
-                else if (isMoveRight)
+                else if (wasMoveRight)
                 {
-                    sprites["snakeBody"].setTexture(assets["snakeBody_RightUp"]);
+                    sprites["snakeBody"].setTexture(assets["snakeBody_DownLeft"]);
                 }
             }
 

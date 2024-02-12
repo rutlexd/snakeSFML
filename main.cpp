@@ -62,7 +62,7 @@ int main()
                 snake.move(moveSide);
             }
             
-            snake.render(window);
+             snake.render(window);
             window.display();
         }
     }
