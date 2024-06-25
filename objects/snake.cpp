@@ -85,34 +85,34 @@ public:
 
     void loadAssets()
     {
-        snakeHead.loadFromFile("asssets/sprites/snakeHead_Forward.png");
+        snakeHead.loadFromFile("assets/sprites/snakeHead_Forward.png");
         assets["snakeHead_Forward"] = snakeHead;
 
-        snakeHead.loadFromFile("asssets/sprites/snakeHead_Down.png");
+        snakeHead.loadFromFile("assets/sprites/snakeHead_Down.png");
         assets["snakeHead_Down"] = snakeHead;
 
-        snakeHead.loadFromFile("asssets/sprites/snakeHead_Right.png");
+        snakeHead.loadFromFile("assets/sprites/snakeHead_Right.png");
         assets["snakeHead_Right"] = snakeHead;
 
-        snakeHead.loadFromFile("asssets/sprites/snakeHead_Left.png");
+        snakeHead.loadFromFile("assets/sprites/snakeHead_Left.png");
         assets["snakeHead_Left"] = snakeHead;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_Vertical.png");
+        snakeBody.loadFromFile("assets/sprites/snakeBody_Vertical.png");
         assets["snakeBody_Vertical"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_Horizontal.png");
+        snakeBody.loadFromFile("assets/sprites/snakeBody_Horizontal.png");
         assets["snakeBody_Horizontal"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_UpLeft.png");
+        snakeBody.loadFromFile("assets/sprites/snakeBody_UpLeft.png");
         assets["snakeBody_UpLeft"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_DownLeft.png");
+        snakeBody.loadFromFile("assets/sprites/snakeBody_DownLeft.png");
         assets["snakeBody_DownLeft"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_UpRight.png");
+        snakeBody.loadFromFile("assets/sprites/snakeBody_UpRight.png");
         assets["snakeBody_UpRight"] = snakeBody;
 
-        snakeBody.loadFromFile("asssets/sprites/snakeBody_DownRight.png");
+        snakeBody.loadFromFile("assets/sprites/snakeBody_DownRight.png");
         assets["snakeBody_DownRight"] = snakeBody;
     }
 

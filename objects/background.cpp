@@ -15,7 +15,7 @@ public:
     
     void loadAssets()
     {
-        background.loadFromFile("asssets/sprites/gameField.png");
+        background.loadFromFile("assets/sprites/gameField.png");
         assets["background"] = background;
     }
 
