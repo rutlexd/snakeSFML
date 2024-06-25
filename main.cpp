@@ -14,15 +14,6 @@ int main()
     sf::Clock clock;
     window.setFramerateLimit(FPS);
 
-    // Texture backgroundSq;
-    // backgroundSq.loadFromFile("asssets/sprites/gameField.png");
-
-    // Sprite background;
-
-    // background.setTexture(backgroundSq);
-
-    // background.setPosition(Vector2f(50, 200));
-
     Keyboard::Key moveSide = Keyboard::Unknown;
     Keyboard::Key preMoveSide = Keyboard::Unknown;
 
