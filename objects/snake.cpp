@@ -1,3 +1,5 @@
+#include <iostream>
+
 struct Position
 {
     int x;
@@ -9,8 +11,9 @@ class Snake
 
 private:
     const int MOVE_STEP = 32;
-    int size = 3;
-    Position snakePos[100] = {50, 200};
+    int size = 1;
+    Position snakePos[100];
+   
     Texture snakeHead;
     Texture snakeBody;
 
@@ -58,6 +61,28 @@ private:
     }
 
 public:
+    
+   
+
+    void increase()
+    {
+        size++;
+    }
+
+
+    void setStartPos(int x , int y){
+        snakePos[0] = {x, y};
+    }
+
+    // bool isField(int x, int y)
+    // {
+    //     if (x >= background.LEFT_BORDER && x <= background.RIGHT_BORDER && y >= background.TOP_BORDER && y <= background.BOTTOM_BORDER)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
     void loadAssets()
     {
         snakeHead.loadFromFile("asssets/sprites/snakeHead_Forward.png");
@@ -209,6 +234,10 @@ public:
         }
 
         sprites["snakeHead"].setPosition(snakePos[0].x, snakePos[0].y);
+        // if (!isField(snakePos[0].x, snakePos[0].y))
+        // {
+        //     game = 0;
+        // }
         window.draw(sprites["snakeHead"]);
     }
 

@@ -1,6 +1,7 @@
 #include "assets.cpp"
 #include "config.cpp"
 #include "objects/snake.cpp"
+#include "objects/background.cpp"
 #include <iostream>
 #include <unistd.h>
 
@@ -13,20 +14,25 @@ int main()
     sf::Clock clock;
     window.setFramerateLimit(FPS);
 
-    Texture backgroundSq;
-    backgroundSq.loadFromFile("asssets/sprites/gameField.png");
+    // Texture backgroundSq;
+    // backgroundSq.loadFromFile("asssets/sprites/gameField.png");
 
-    Sprite background;
+    // Sprite background;
 
-    background.setTexture(backgroundSq);
+    // background.setTexture(backgroundSq);
 
-    background.setPosition(Vector2f(50, 200));
+    // background.setPosition(Vector2f(50, 200));
 
     Keyboard::Key moveSide = Keyboard::Unknown;
     Keyboard::Key preMoveSide = Keyboard::Unknown;
 
-    Snake snake;
+    Background background;
 
+    background.loadAssets();
+    background.setSprite();
+
+    Snake snake;
+    snake.setStartPos(0,40);
     snake.loadAssets();
     snake.setSprites();
 
@@ -50,9 +56,9 @@ int main()
             }
         }
 
-        window.clear(sf::Color::Magenta);
+        window.clear(sf::Color::White);
 
-        window.draw(background);
+        window.draw(background.getSprite());
         if (game == 1)
         {
             if (clock.getElapsedTime().asMilliseconds() >= SPEED)
@@ -61,8 +67,8 @@ int main()
                 moveSide = preMoveSide;
                 snake.move(moveSide);
             }
-            
-             snake.render(window);
+
+            snake.render(window);
             window.display();
         }
     }
