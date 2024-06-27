@@ -2,7 +2,8 @@
 #include "config.cpp"
 #include "objects/snake.cpp"
 #include "objects/background.cpp"
-#include "objects/Buttons.cpp"
+#include "objects/buttons.cpp"
+#include "objects/apple.cpp"
 #include <iostream>
 #include <unistd.h>
 
@@ -29,13 +30,18 @@ int main()
     snake.setSprites();
     snake.sentBorders(background.LEFT_BORDER, background.RIGHT_BORDER, background.TOP_BORDER, background.BOTTOM_BORDER);
 
-    RebootButton rebootButton;
+    Apple apple;
 
+    apple.loadAssets();
+    apple.setSprites();
+    apple.getFieldStartPos(background.LEFT_BORDER, background.TOP_BORDER);
+    apple.generatePos();
+
+    RebootButton rebootButton;
     rebootButton.loadAssets();
     rebootButton.setSprites();
 
     QuitButton quitButton;
-
     quitButton.loadAssets();
     quitButton.setSprites();
 
@@ -63,14 +69,15 @@ int main()
         {
             Vector2i mousePos = Mouse::getPosition(window);
 
-            if (sprites["RebootButton"].getGlobalBounds().contains(mousePos.x, mousePos.y))
+            if (sprites["rebootButton"].getGlobalBounds().contains(mousePos.x, mousePos.y))
             {
                 snake.restart();
+                apple.generatePos();
                 game = 1;
                 preMoveSide = Keyboard::Unknown;
             }
-            
-            if (sprites["QuitButton"].getGlobalBounds().contains(mousePos.x, mousePos.y))
+
+            if (sprites["quitButton"].getGlobalBounds().contains(mousePos.x, mousePos.y))
             {
                 break;
             }
@@ -91,10 +98,16 @@ int main()
                     game = 0;
                 }
             }
+         }
+        if (sprites["snakeHead"].getGlobalBounds() == sprites["apple"].getGlobalBounds())
+        {
+            apple.generatePos();
+            snake.increase();
         }
         snake.render(window);
-        window.draw(sprites["RebootButton"]);
-        window.draw(sprites["QuitButton"]);
+        window.draw(sprites["apple"]);
+        window.draw(sprites["rebootButton"]);
+        window.draw(sprites["quitButton"]);
         window.display();
     }
     return 0;

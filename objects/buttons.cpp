@@ -7,13 +7,13 @@ public:
     void loadAssets()
     {
         rebootButton.loadFromFile("assets/sprites/rebootBtn.png");
-        assets["RebootButton"] = rebootButton;
+        assets["rebootButton"] = rebootButton;
     }
 
     void setSprites()
     {
-        sprites["RebootButton"].setTexture(assets["RebootButton"]);
-        sprites["RebootButton"].setPosition(261, 1);
+        sprites["rebootButton"].setTexture(assets["rebootButton"]);
+        sprites["rebootButton"].setPosition(261, 1);
     }
 };
 
@@ -26,12 +26,12 @@ public:
     void loadAssets()
     {
         quitButton.loadFromFile("assets/sprites/quitBtn.png");
-        assets["QuitButton"] = quitButton;
+        assets["quitButton"] = quitButton;
     }
 
     void setSprites()
     {
-        sprites["QuitButton"].setTexture(assets["QuitButton"]);
-        sprites["QuitButton"].setPosition(298, 1);
+        sprites["quitButton"].setTexture(assets["quitButton"]);
+        sprites["quitButton"].setPosition(298, 1);
     }
 };
