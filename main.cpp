@@ -34,8 +34,9 @@ int main()
 
     apple.loadAssets();
     apple.setSprites();
-    apple.getFieldStartPos(background.LEFT_BORDER, background.TOP_BORDER);
-    apple.generatePos();
+    apple.sentFieldStartPos(background.LEFT_BORDER, background.TOP_BORDER);
+    apple.sentMoveStep(snake.MOVE_STEP);
+    apple.create();
 
     RebootButton rebootButton;
     rebootButton.loadAssets();
@@ -44,6 +45,12 @@ int main()
     QuitButton quitButton;
     quitButton.loadAssets();
     quitButton.setSprites();
+
+    sf::Music lootApple;
+    sf::Music looseGame;
+
+    lootApple.openFromFile("assets/sounds/eatingApple.ogg");
+    looseGame.openFromFile("assets/sounds/loose.ogg");
 
     while (window.isOpen())
     {
@@ -72,7 +79,7 @@ int main()
             if (sprites["rebootButton"].getGlobalBounds().contains(mousePos.x, mousePos.y))
             {
                 snake.restart();
-                apple.generatePos();
+                apple.create();
                 game = 1;
                 preMoveSide = Keyboard::Unknown;
             }
@@ -88,22 +95,33 @@ int main()
         window.draw(sprites["background"]);
         if (game == 1)
         {
+            if (!snake.isPosValid())
+            {
+                looseGame.stop();
+                looseGame.play();
+                game = 0;
+                continue;
+            }
+
             if (clock.getElapsedTime().asMilliseconds() >= SPEED)
             {
                 clock.restart();
                 moveSide = preMoveSide;
                 snake.move(moveSide);
-                if (!snake.inField())
-                {
-                    game = 0;
-                }
             }
-         }
+        }
         if (sprites["snakeHead"].getGlobalBounds() == sprites["apple"].getGlobalBounds())
         {
-            apple.generatePos();
+            lootApple.stop();
+            lootApple.play();
+            apple.create();
             snake.increase();
+            if (snake.inApple())
+            {
+                apple.create();
+            }
         }
+
         snake.render(window);
         window.draw(sprites["apple"]);
         window.draw(sprites["rebootButton"]);
