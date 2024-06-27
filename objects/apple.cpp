@@ -1,5 +1,4 @@
 #include <random>
-#include <iostream>
 
 class Apple
 {
@@ -10,9 +9,14 @@ private:
     int y;
     int startX;
     int startY;
+    int moveStep;
+    std::random_device rd;
 
-    std::random_device rd; 
 public:
+    void sentMoveStep(int moveSt)
+    {
+        moveStep = moveSt;
+    }
     void loadAssets()
     {
         apple.loadFromFile("assets/sprites/apple.png");
@@ -24,7 +28,7 @@ public:
         sprites["apple"].setTexture(assets["apple"]);
     }
 
-    void getFieldStartPos(int x, int y)
+    void sentFieldStartPos(int x, int y)
     {
         startX = x;
         startY = y;
@@ -32,14 +36,22 @@ public:
 
     void generatePos()
     {
-        std::mt19937 gen(rd()); 
+        std::mt19937 gen(rd());
         std::uniform_int_distribution<> distr(1, 9);
-        int x = distr(gen);
-        std::cout << "x: " << x << std::endl;
+        int num;
+        
+        num = distr(gen);
 
-        int y = distr(gen);
-        std::cout << "y: " << y << std::endl;
+        x = startX + (moveStep * num);
 
-        sprites["apple"].setPosition(startX + (32 * x), startY + (32 * y));
+        num = distr(gen);
+
+        y = startY + (moveStep * num);
+    }
+
+    void create()
+    {   
+        generatePos();
+        sprites["apple"].setPosition(x, y);
     }
 };
