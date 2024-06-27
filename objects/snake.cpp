@@ -10,7 +10,6 @@ class Snake
 {
 
 private:
-    const int MOVE_STEP = 32;
     const int DEF_SIZE = 3;
     int size = 3;
     Position snakePos[100];
@@ -67,6 +66,8 @@ private:
     }
 
 public:
+    const int MOVE_STEP = 32;
+
     void increase()
     {
         size++;
@@ -77,8 +78,10 @@ public:
         snakePos[0] = {x, y};
     }
 
-    void restart(){
+    void restart()
+    {
         setStartPos(leftBord, topBord);
+        setSprites();
         size = DEF_SIZE;
         // score = 0;
     }
@@ -119,7 +122,6 @@ public:
     void setSprites()
     {
         sprites["snakeHead"].setTexture(assets["snakeHead_Forward"]);
-        // sprites["snakeBody"].setTexture(assets["snakeBody_Vertical"]);
     }
 
     void setBodyMoveSide(int indexBody)
@@ -228,7 +230,7 @@ public:
                     sprites["snakeBody"].setTexture(assets["snakeBody_DownLeft"]);
                 }
             }
-            
+
             sprites["snakeBody"].setPosition(snakePos[indexBody].x, snakePos[indexBody].y);
             window.draw(sprites["snakeBody"]);
         }
@@ -268,12 +270,31 @@ public:
         bottomBord = bottom;
     }
 
-    bool inField()
+    bool isPosValid()
     {
         if (snakePos[0].x < leftBord || snakePos[0].x > rightBord || snakePos[0].y < topBord || snakePos[0].y > bottomBord)
         {
             return false;
         }
+        for (int i = 1; i < size; i++)
+        {
+            if (snakePos[0].x == snakePos[i].x && snakePos[0].y == snakePos[i].y && size > DEF_SIZE)
+            {
+                return false;
+            }
+        }
         return true;
+    }
+
+    bool inApple()
+    {
+        for (int i = 1; i < size; i++)
+        {
+            if (sprites["apple"].getPosition().x == snakePos[i].x && sprites["apple"].getPosition().y == snakePos[i].y)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 };
