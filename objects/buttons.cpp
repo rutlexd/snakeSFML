@@ -13,7 +13,7 @@ public:
     void setSprites()
     {
         sprites["rebootButton"].setTexture(assets["rebootButton"]);
-        sprites["rebootButton"].setPosition(261, 1);
+        sprites["rebootButton"].setPosition(261, 1); // Need to change, but don't know how :)
     }
 };
 
@@ -32,6 +32,6 @@ public:
     void setSprites()
     {
         sprites["quitButton"].setTexture(assets["quitButton"]);
-        sprites["quitButton"].setPosition(298, 1);
-    }
+        sprites["quitButton"].setPosition(298, 1); //  like upper
+}                                                     
 };
