@@ -2,6 +2,7 @@
 #include "config.cpp"
 #include "objects/snake.cpp"
 #include "objects/background.cpp"
+#include "objects/Buttons.cpp"
 #include <iostream>
 #include <unistd.h>
 
@@ -23,9 +24,20 @@ int main()
     background.setSprite();
 
     Snake snake;
-    snake.setStartPos(0,40);
+    snake.setStartPos(background.LEFT_BORDER, background.TOP_BORDER);
     snake.loadAssets();
     snake.setSprites();
+    snake.sentBorders(background.LEFT_BORDER, background.RIGHT_BORDER, background.TOP_BORDER, background.BOTTOM_BORDER);
+
+    RebootButton rebootButton;
+
+    rebootButton.loadAssets();
+    rebootButton.setSprites();
+
+    QuitButton quitButton;
+
+    quitButton.loadAssets();
+    quitButton.setSprites();
 
     while (window.isOpen())
     {
@@ -35,7 +47,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
- 
+
         if (event.type == Event::KeyPressed)
         {
 
@@ -47,9 +59,26 @@ int main()
             }
         }
 
+        if (Mouse::isButtonPressed(Mouse::Left))
+        {
+            Vector2i mousePos = Mouse::getPosition(window);
+
+            if (sprites["RebootButton"].getGlobalBounds().contains(mousePos.x, mousePos.y))
+            {
+                snake.restart();
+                game = 1;
+                preMoveSide = Keyboard::Unknown;
+            }
+            
+            if (sprites["QuitButton"].getGlobalBounds().contains(mousePos.x, mousePos.y))
+            {
+                break;
+            }
+        }
+
         window.clear(sf::Color::White);
 
-        window.draw(background.getSprite());
+        window.draw(sprites["background"]);
         if (game == 1)
         {
             if (clock.getElapsedTime().asMilliseconds() >= SPEED)
@@ -57,11 +86,16 @@ int main()
                 clock.restart();
                 moveSide = preMoveSide;
                 snake.move(moveSide);
+                if (!snake.inField())
+                {
+                    game = 0;
+                }
             }
-
-            snake.render(window);
-            window.display();
         }
+        snake.render(window);
+        window.draw(sprites["RebootButton"]);
+        window.draw(sprites["QuitButton"]);
+        window.display();
     }
     return 0;
 }

@@ -2,8 +2,8 @@
 
 struct Position
 {
-    int x;
-    int y;
+    int x = 0;
+    int y = 40;
 };
 
 class Snake
@@ -11,9 +11,10 @@ class Snake
 
 private:
     const int MOVE_STEP = 32;
-    int size = 1;
+    const int DEF_SIZE = 3;
+    int size = 3;
     Position snakePos[100];
-   
+
     Texture snakeHead;
     Texture snakeBody;
 
@@ -26,6 +27,11 @@ private:
     bool wasMoveUp;
     bool wasMoveRight;
     bool wasMoveLeft;
+
+    int leftBord;
+    int rightBord;
+    int topBord;
+    int bottomBord;
 
     void moveBody()
     {
@@ -61,27 +67,21 @@ private:
     }
 
 public:
-    
-   
-
     void increase()
     {
         size++;
     }
 
-
-    void setStartPos(int x , int y){
+    void setStartPos(int x, int y)
+    {
         snakePos[0] = {x, y};
     }
 
-    // bool isField(int x, int y)
-    // {
-    //     if (x >= background.LEFT_BORDER && x <= background.RIGHT_BORDER && y >= background.TOP_BORDER && y <= background.BOTTOM_BORDER)
-    //     {
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    void restart(){
+        setStartPos(leftBord, topBord);
+        size = DEF_SIZE;
+        // score = 0;
+    }
 
     void loadAssets()
     {
@@ -119,7 +119,7 @@ public:
     void setSprites()
     {
         sprites["snakeHead"].setTexture(assets["snakeHead_Forward"]);
-        sprites["snakeBody"].setTexture(assets["snakeBody_Horizontal"]);
+        // sprites["snakeBody"].setTexture(assets["snakeBody_Vertical"]);
     }
 
     void setBodyMoveSide(int indexBody)
@@ -228,16 +228,12 @@ public:
                     sprites["snakeBody"].setTexture(assets["snakeBody_DownLeft"]);
                 }
             }
-
+            
             sprites["snakeBody"].setPosition(snakePos[indexBody].x, snakePos[indexBody].y);
             window.draw(sprites["snakeBody"]);
         }
 
         sprites["snakeHead"].setPosition(snakePos[0].x, snakePos[0].y);
-        // if (!isField(snakePos[0].x, snakePos[0].y))
-        // {
-        //     game = 0;
-        // }
         window.draw(sprites["snakeHead"]);
     }
 
@@ -262,5 +258,22 @@ public:
         default:
             break;
         }
+    }
+
+    void sentBorders(int left, int right, int top, int bottom)
+    {
+        leftBord = left;
+        rightBord = right;
+        topBord = top;
+        bottomBord = bottom;
+    }
+
+    bool inField()
+    {
+        if (snakePos[0].x < leftBord || snakePos[0].x > rightBord || snakePos[0].y < topBord || snakePos[0].y > bottomBord)
+        {
+            return false;
+        }
+        return true;
     }
 };

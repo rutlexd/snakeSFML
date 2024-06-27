@@ -8,10 +8,10 @@ private:
     Texture background;
 
 public:
-    const int LEFT_BORDER = 0;
-    const int RIGHT_BORDER = 320;
-    const int TOP_BORDER = 40;
-    const int BOTTOM_BORDER = 320;
+    const int LEFT_BORDER = 10;
+    const int RIGHT_BORDER = 298;
+    const int TOP_BORDER = 70;
+    const int BOTTOM_BORDER = 328;
     
     void loadAssets()
     {
