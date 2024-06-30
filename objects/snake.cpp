@@ -10,13 +10,12 @@ class Snake
 {
 
 private:
-    const int MOVE_STEP = 32;
     const int DEF_SIZE = 3;
     int size = 3;
-    Position snakePos[100];
 
     Texture snakeHead;
     Texture snakeBody;
+    Texture snakeBack;
 
     bool isMoveUp;
     bool isMoveDown;
@@ -27,6 +26,8 @@ private:
     bool wasMoveUp;
     bool wasMoveRight;
     bool wasMoveLeft;
+
+    bool isBack;
 
     int leftBord;
     int rightBord;
@@ -67,6 +68,9 @@ private:
     }
 
 public:
+    const int MOVE_STEP = 32;
+    Position snakePos[100];
+
     void increase()
     {
         size++;
@@ -77,8 +81,10 @@ public:
         snakePos[0] = {x, y};
     }
 
-    void restart(){
+    void restart()
+    {
         setStartPos(leftBord, topBord);
+        setSprites();
         size = DEF_SIZE;
         // score = 0;
     }
@@ -114,12 +120,47 @@ public:
 
         snakeBody.loadFromFile("assets/sprites/snakeBody_DownRight.png");
         assets["snakeBody_DownRight"] = snakeBody;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_Up.png");
+        assets["snakeBack_Up"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_Down.png");
+        assets["snakeBack_Down"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_Left.png");
+        assets["snakeBack_Left"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_Right.png");
+        assets["snakeBack_Right"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_DownLeft.png");
+        assets["snakeBack_DownLeft"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_RightUp.png");
+        assets["snakeBack_RightUp"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_LeftUp.png");
+        assets["snakeBack_LeftUp"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_DownRight.png");
+        assets["snakeBack_DownRight"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_LeftDown.png");
+        assets["snakeBack_LeftDown"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_UpRight.png");
+        assets["snakeBack_UpRight"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_UpLeft.png");
+        assets["snakeBack_UpLeft"] = snakeBack;
+
+        snakeBack.loadFromFile("assets/sprites/snakeBack_RightDown.png");
+        assets["snakeBack_RightDown"] = snakeBack;
     }
 
     void setSprites()
     {
         sprites["snakeHead"].setTexture(assets["snakeHead_Forward"]);
-        // sprites["snakeBody"].setTexture(assets["snakeBody_Vertical"]);
     }
 
     void setBodyMoveSide(int indexBody)
@@ -133,6 +174,8 @@ public:
         wasMoveUp = false;
         wasMoveRight = false;
         wasMoveLeft = false;
+
+        isBack = false;
 
         if (snakePos[indexBody].x > snakePos[indexBody - 1].x)
         {
@@ -174,63 +217,84 @@ public:
         for (int indexBody = 1; indexBody < size; indexBody++)
         {
             setBodyMoveSide(indexBody);
+            isBack = false;
+            if (indexBody == size - 1)
+            {
+                isBack = true;
+            }
 
             if (isMoveRight)
             {
                 sprites["snakeBody"].setTexture(assets["snakeBody_Horizontal"]);
-
+                sprites["snakeBack"].setTexture(assets["snakeBack_Right"]);
                 if (wasMoveDown)
                 {
                     sprites["snakeBody"].setTexture(assets["snakeBody_DownRight"]);
+                    sprites["snakeBack"].setTexture(assets["snakeBack_DownRight"]);
                 }
                 else if (wasMoveUp)
                 {
                     sprites["snakeBody"].setTexture(assets["snakeBody_UpRight"]);
+                    sprites["snakeBack"].setTexture(assets["snakeBack_UpRight"]);
                 }
             }
             else if (isMoveLeft)
             {
                 sprites["snakeBody"].setTexture(assets["snakeBody_Horizontal"]);
+                sprites["snakeBack"].setTexture(assets["snakeBack_Left"]);
 
                 if (wasMoveDown)
                 {
                     sprites["snakeBody"].setTexture(assets["snakeBody_DownLeft"]);
+                    sprites["snakeBack"].setTexture(assets["snakeBack_DownLeft"]);
                 }
                 else if (wasMoveUp)
                 {
                     sprites["snakeBody"].setTexture(assets["snakeBody_UpLeft"]);
+                    sprites["snakeBack"].setTexture(assets["snakeBack_UpLeft"]);
                 }
             }
 
             else if (isMoveDown)
             {
                 sprites["snakeBody"].setTexture(assets["snakeBody_Vertical"]);
-
+                sprites["snakeBack"].setTexture(assets["snakeBack_Down"]);
                 if (wasMoveLeft)
                 {
                     sprites["snakeBody"].setTexture(assets["snakeBody_UpRight"]);
+                    sprites["snakeBack"].setTexture(assets["snakeBack_LeftDown"]);
                 }
                 else if (wasMoveRight)
                 {
                     sprites["snakeBody"].setTexture(assets["snakeBody_UpLeft"]);
+                     sprites["snakeBack"].setTexture(assets["snakeBack_RightDown"]);
                 }
             }
             else if (isMoveUp)
             {
                 sprites["snakeBody"].setTexture(assets["snakeBody_Vertical"]);
-
+                sprites["snakeBack"].setTexture(assets["snakeBack_Up"]);
                 if (wasMoveLeft)
                 {
                     sprites["snakeBody"].setTexture(assets["snakeBody_DownRight"]);
+                    sprites["snakeBack"].setTexture(assets["snakeBack_LeftUp"]);
                 }
                 else if (wasMoveRight)
                 {
                     sprites["snakeBody"].setTexture(assets["snakeBody_DownLeft"]);
+                    sprites["snakeBack"].setTexture(assets["snakeBack_RightUp"]);
                 }
             }
-            
-            sprites["snakeBody"].setPosition(snakePos[indexBody].x, snakePos[indexBody].y);
-            window.draw(sprites["snakeBody"]);
+            if (isBack)
+            {
+                sprites["snakeBack"].setPosition(snakePos[indexBody].x, snakePos[indexBody].y);
+                window.draw(sprites["snakeBack"]);
+            }
+            else
+            {
+                sprites["snakeBody"].setPosition(snakePos[indexBody].x, snakePos[indexBody].y);
+                window.draw(sprites["snakeBody"]);
+            }
         }
 
         sprites["snakeHead"].setPosition(snakePos[0].x, snakePos[0].y);
@@ -268,12 +332,24 @@ public:
         bottomBord = bottom;
     }
 
-    bool inField()
+    bool isPosValid()
     {
         if (snakePos[0].x < leftBord || snakePos[0].x > rightBord || snakePos[0].y < topBord || snakePos[0].y > bottomBord)
         {
             return false;
         }
+        for (int i = 1; i < size; i++)
+        {
+            if (snakePos[0].x == snakePos[i].x && snakePos[0].y == snakePos[i].y && size > DEF_SIZE)
+            {
+                return false;
+            }
+        }
         return true;
+    }
+
+    int getSize()
+    {
+        return size;
     }
 };
