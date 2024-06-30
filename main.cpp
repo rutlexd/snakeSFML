@@ -7,7 +7,7 @@
 #include <iostream>
 #include <unistd.h>
 
-int game = 1;
+bool game = true;
 
 int main()
 {
@@ -80,7 +80,7 @@ int main()
             {
                 snake.restart();
                 apple.create();
-                game = 1;
+                game = true;
                 preMoveSide = Keyboard::Unknown;
             }
 
@@ -93,13 +93,13 @@ int main()
         window.clear(sf::Color::White);
 
         window.draw(sprites["background"]);
-        if (game == 1)
+        if (game)
         {
             if (!snake.isPosValid())
             {
                 looseGame.stop();
                 looseGame.play();
-                game = 0;
+                game = false;
                 continue;
             }
 
@@ -114,13 +114,12 @@ int main()
         {
             lootApple.stop();
             lootApple.play();
-            apple.create();
             snake.increase();
-            if (snake.inApple())
+            do
             {
                 apple.create();
-            }
-        }
+            } while (apple.inSnake(snake));
+                }
 
         snake.render(window);
         window.draw(sprites["apple"]);
