@@ -39,7 +39,7 @@ public:
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> distr(1, 9);
         int num;
-        
+
         num = distr(gen);
 
         x = startX + (moveStep * num);
@@ -50,8 +50,20 @@ public:
     }
 
     void create()
-    {   
+    {
         generatePos();
         sprites["apple"].setPosition(x, y);
+    }
+
+    bool inSnake(Snake snake)
+    {
+        for (int i = 1; i < snake.getSize(); i++)
+        {
+            if (sprites["apple"].getPosition().x == snake.snakePos[i].x && sprites["apple"].getPosition().y == snake.snakePos[i].y)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 };
